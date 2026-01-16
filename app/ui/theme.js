@@ -2,22 +2,22 @@ const customOverTypeThemes = {
   dark: {
       name: 'dark',
       colors: {
-          bgPrimary: '#12200a',
-          bgSecondary: '#12200a',
-          text: '#e8f0e5',
-          strong: 'rgba(237, 242, 235, 1)',
-          h1: '#e8f0e5',
-          h2: '#e8f0e5',
-          h3: '#e8f0e5',
-          em: 'rgba(237, 242, 235, 1)',
-          link: '#399b3eff',
-          code: '#e8f0e5',
-          codeBg: 'rgba(56, 142, 60, 0.3)',
-          blockquote: '#558b2f',
-          hr: '#66bb6a',
-          syntaxMarker: 'rgb(39, 133, 46)',
-          cursor: '#4caf50',
-          selection: 'rgba(42, 74, 23, 0.4)'
+          bgPrimary: '#232a2f',
+          bgSecondary: '#1a2023',
+          text: '#d4dce4',
+          strong: '#d4dce4',
+          h1: '#5bec95',
+          h2: '#5bec95',
+          h3: '#5bec95',
+          em: '#ba8ef7',
+          link: '#89ddff',
+          code: '#ffa763',
+          codeBg: 'rgba(35, 42, 47, 0.8)',
+          blockquote: '#707a84',
+          hr: '#3d464d',
+          syntaxMarker: '#707a84',
+          cursor: '#89ddff',
+          selection: 'rgba(32, 64, 98, 0.6)'
       }
   },
   light: {

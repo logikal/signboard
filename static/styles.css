@@ -42,14 +42,14 @@ html, body { margin: 0; height: 100%; }
 }
 
 :root[data-theme="dark"] {
-  --bg: #091102;                /* deep forest base */
-  --bg-card: #12200a;           /* slightly lighter for cards */
-  --text: #e8f0e5;              /* soft off-white with a hint of green */
-  --muted: #a0b3a3;             /* muted sage-gray for secondary text */
-  --border: #1f2e17;            /* dark olive for borders */
+  --bg: #1a2023;                /* dark blue-gray base (Copilot sidebar) */
+  --bg-card: #232a2f;           /* slightly lighter for cards (Copilot editor) */
+  --text: #d4dce4;              /* bright off-white text */
+  --muted: #939da5;             /* muted gray for secondary text */
+  --border: #2d363d;            /* subtle dark border */
   --shadow: rgba(0, 0, 0, 0.45);
   --shadow-card: rgba(0, 0, 0, 0.55);
-  --accent: #6fcf97;            /* fresh green accent */
+  --accent: #89ddff;            /* cyan accent (Copilot primary) */
 }
 
 body {
@@ -350,8 +350,8 @@ select:disabled {
   background: #d7dae0; border-radius: 20px; border: 2px solid transparent;
 }
 *::-webkit-scrollbar-thumb:hover { background: #c8cbd2; }
-:root[data-theme="dark"] *::-webkit-scrollbar-thumb { background: #475569; }
-:root[data-theme="dark"] *::-webkit-scrollbar-thumb:hover { background: #64748b; }
+:root[data-theme="dark"] *::-webkit-scrollbar-thumb { background: #3d464d; }
+:root[data-theme="dark"] *::-webkit-scrollbar-thumb:hover { background: #505a63; }
 
 [contenteditable] {
   outline: none;
