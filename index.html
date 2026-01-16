@@ -19,10 +19,13 @@
     <div id="boardPathWrapper">
       <button id="pickFolder">Choose Board Folder</button>
       <input id="boardPath" type="text" class="hidden" readonly>
-      <script>
-        
-      </script>
-      <button id="themeToggle" title="Toggle dark mode">🌙</button>
+      <div id="themePickerWrapper">
+        <select id="themePicker" title="Choose theme">
+          <option value="light">Light</option>
+          <option value="copilot-dark">Copilot Dark</option>
+        </select>
+        <button id="importThemeBtn" title="Import VS Code theme">+</button>
+      </div>
     </div>
     <div id="boardAddNewListWrapper">
       <button id="btnAddNewList">+ Add List</button>
@@ -68,6 +71,8 @@
     <input type="hidden" id="cardEditorCardDueDate">
   </div>
   
+  <script src="app/ui/themeParser.js"></script>
+  <script src="app/ui/themeManager.js"></script>
   <script src="app/signboard.js"></script>
 </body>
 </html>

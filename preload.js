@@ -169,6 +169,39 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openExternal: (url) => shell.openExternal(url),
 });
 
+// Theme file operations
+contextBridge.exposeInMainWorld("themeAPI", {
+  readThemeFile: async (filePath) => {
+    return await fs.readFile(filePath, 'utf8');
+  },
+  
+  fileExists: async (filePath) => {
+    try {
+      await fs.access(filePath);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  
+  writeThemeFile: async (filePath, content) => {
+    await fs.writeFile(filePath, content, 'utf8');
+  },
+
+  // List theme files in a directory
+  listThemeFiles: async (dirPath) => {
+    try {
+      const files = await fs.readdir(dirPath, { withFileTypes: true });
+      return files
+        .filter(f => f.isFile() && f.name.endsWith('.json') && 
+                (f.name.includes('theme') || f.name.includes('Theme')))
+        .map(f => f.name);
+    } catch {
+      return [];
+    }
+  }
+});
+
 // Remove characters that are not allowed in filenames
 function sanitize(str) {
   return str.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim() || 'untitled';
