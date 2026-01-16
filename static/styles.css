@@ -100,20 +100,40 @@ header h1 {
   padding: 8px 12px;
 }
 
-/* Theme toggle button (uses your existing button element) */
-#themeToggle {
+/* Theme picker wrapper */
+#themePickerWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#themePicker {
+  min-width: 140px;
+  font-size: var(--font-sm);
+}
+
+#importThemeBtn {
   background: var(--bg-card);
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 6px 10px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background .12s ease, transform .1s ease, border-color .12s ease;
 }
-#themeToggle:hover { background: color-mix(in oklab, var(--bg-card) 94%, var(--border)); }
-#themeToggle:active { transform: translateY(1px); }
-#themeToggle:focus-visible { outline: 3px solid color-mix(in oklab, var(--accent) 40%, white); }
+#importThemeBtn:hover { 
+  background: color-mix(in oklab, var(--bg-card) 94%, var(--border));
+  border-color: var(--accent);
+}
+#importThemeBtn:active { transform: translateY(1px); }
+#importThemeBtn:focus-visible { outline: 3px solid color-mix(in oklab, var(--accent) 40%, white); }
 
 /* 4) Board layout */
 main#board {
@@ -350,8 +370,7 @@ select:disabled {
   background: #d7dae0; border-radius: 20px; border: 2px solid transparent;
 }
 *::-webkit-scrollbar-thumb:hover { background: #c8cbd2; }
-:root[data-theme="dark"] *::-webkit-scrollbar-thumb { background: #3d464d; }
-:root[data-theme="dark"] *::-webkit-scrollbar-thumb:hover { background: #505a63; }
+/* Dark mode scrollbar colors are applied dynamically by ThemeManager */
 
 [contenteditable] {
   outline: none;

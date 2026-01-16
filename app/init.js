@@ -9,6 +9,12 @@ async function init() {
         labelBoardPath.textContent = 'Switch Board';
         
         window.boardRoot = previousOpenedBoard;
+        
+        // Load board-specific theme if present
+        if (window.loadBoardThemeIfPresent) {
+            await window.loadBoardThemeIfPresent(previousOpenedBoard.replace(/\/$/, ''));
+        }
+        
         await renderBoard();
     }
 

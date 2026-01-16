@@ -1,4 +1,9 @@
 async function openBoard( dir ) {
+    // Clear any previous board theme before loading new board
+    if (window.clearBoardTheme) {
+        window.clearBoardTheme();
+    }
+
     const directories = await window.board.listDirectories( dir );
 
     if ( directories.length == 0 ) {
@@ -27,11 +32,23 @@ Control button on Windows. Command button on macOS.
 - CMD + Shift + N - New list
 - Escape - Dismiss all open modals
 
+**Themes**
+
+You can choose from several built-in themes using the theme picker in the header.
+To use a custom VS Code theme, place a theme JSON file named "signboard-theme.json" 
+in your board folder and it will be automatically applied.
+
 I hope you enjoy Signboard. If you have any feedback, please let me know. colin@cdevroe.com` );
     }
 
     window.boardRoot = dir + '/';
     localStorage.setItem('boardPath',window.boardRoot);
+    
+    // Load board-specific theme if present (e.g., signboard-theme.json in board root)
+    if (window.loadBoardThemeIfPresent) {
+        await window.loadBoardThemeIfPresent(dir);
+    }
+    
     await renderBoard();
     
 }

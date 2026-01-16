@@ -1,65 +1,92 @@
-const customOverTypeThemes = {
-  dark: {
-      name: 'dark',
-      colors: {
-          bgPrimary: '#232a2f',
-          bgSecondary: '#1a2023',
-          text: '#d4dce4',
-          strong: '#d4dce4',
-          h1: '#5bec95',
-          h2: '#5bec95',
-          h3: '#5bec95',
-          em: '#ba8ef7',
-          link: '#89ddff',
-          code: '#ffa763',
-          codeBg: 'rgba(35, 42, 47, 0.8)',
-          blockquote: '#707a84',
-          hr: '#3d464d',
-          syntaxMarker: '#707a84',
-          cursor: '#89ddff',
-          selection: 'rgba(32, 64, 98, 0.6)'
-      }
-  },
-  light: {
-    name: 'lite',
-    colors: {
-        bgPrimary: '#ffffff',
-        bgSecondary: '#ffffff',
-        text: '#2f2f2f',
-        strong: '#000000',
-        h1: '#2f2f2f',
-        h2: '#2f2f2f',
-        h3: '#2f2f2f',
-        em: '#444444',
-        link: '#3366cc',
-        code: '#111111',
-        codeBg: '#dedadaff',
-        blockquote: '#666666',
-        hr: '#e0e0e0',
-        syntaxMarker: '#999999',
-        cursor: '#000000',
-        selection: 'rgba(215, 227, 244, 0.4)'
-    }
+/**
+ * Theme Integration
+ * Initializes and connects the theme system with the UI
+ */
+
+// Initialize theme system when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize theme manager
+  if (window.ThemeManager) {
+    window.ThemeManager.init();
+    setupThemePickerListeners();
+  }
+});
+
+/**
+ * Set up event listeners for theme picker UI
+ */
+function setupThemePickerListeners() {
+  // Theme picker dropdown
+  const themePicker = document.getElementById('themePicker');
+  if (themePicker) {
+    themePicker.addEventListener('change', (e) => {
+      window.ThemeManager.onThemePickerChange(e);
+    });
+  }
+
+  // Import theme button
+  const importBtn = document.getElementById('importThemeBtn');
+  if (importBtn) {
+    importBtn.addEventListener('click', handleImportTheme);
+  }
 }
-};
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.dataset.theme;
-    const newTheme = current === 'dark' ? '' : 'dark';
-    document.documentElement.dataset.theme = newTheme;
-    localStorage.setItem('theme', newTheme);
+
+/**
+ * Handle importing a VS Code theme file
+ */
+async function handleImportTheme() {
+  try {
+    // Use the file chooser to select a JSON file
+    const filePath = await window.chooser.pickDirectory({ 
+      title: 'Select VS Code theme JSON file'
+    });
     
-    if ( newTheme == 'dark' ) {
-        OverType.setTheme(customOverTypeThemes.dark);
-    } else {
-        OverType.setTheme(customOverTypeThemes.light);
+    if (!filePath) return;
+
+    // Try to find theme JSON files in the selected directory
+    const themeFiles = await window.themeAPI.listThemeFiles(filePath);
+    
+    if (themeFiles.length === 0) {
+      // Maybe they selected a file directly - try to read it
+      alert('No theme JSON files found in the selected folder.\n\nLook for files like "theme-color-theme.json" in VS Code extension folders.');
+      return;
     }
 
-  });
+    // If multiple files, use the first one (could show a picker in future)
+    const themeFileName = themeFiles[0];
+    const fullPath = filePath + '/' + themeFileName;
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('theme');
-    if (saved) document.documentElement.dataset.theme = saved;
-  });
+    const themeId = await window.ThemeManager.importVSCodeThemeFromFile(fullPath);
+    
+    if (themeId) {
+      window.ThemeManager.applyTheme(themeId);
+      console.log(`Imported theme: ${themeId}`);
+    }
+  } catch (err) {
+    console.error('Failed to import theme:', err);
+    alert('Failed to import theme. Make sure you selected a valid VS Code theme JSON file.');
+  }
 }
+
+/**
+ * Load board-specific theme when a board is opened
+ * This should be called from openBoard.js
+ */
+async function loadBoardThemeIfPresent(boardPath) {
+  if (window.ThemeManager && boardPath) {
+    await window.ThemeManager.loadBoardTheme(boardPath);
+  }
+}
+
+/**
+ * Clear board theme when switching boards
+ */
+function clearBoardTheme() {
+  if (window.ThemeManager) {
+    window.ThemeManager.clearBoardTheme();
+  }
+}
+
+// Expose functions globally for use by other modules
+window.loadBoardThemeIfPresent = loadBoardThemeIfPresent;
+window.clearBoardTheme = clearBoardTheme;
